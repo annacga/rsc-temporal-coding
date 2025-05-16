@@ -1,6 +1,6 @@
 function mData = field_info(mData,data, varargin)
 
-% FIELD_INFO Calculate and save temporal field characteristics of single neurons.
+% Calculate and save temporal field characteristics of single neurons.
 %
 % This function analyzes spatial-temporal response maps (rMaps) to extract
 % temporal field properties of individual neurons, including:
@@ -67,9 +67,6 @@ function mData = field_info(mData,data, varargin)
 %   If `save_analysis` is true, the extracted metrics will be saved per session
 %   under:
 %     /Fig_1/field_info_modes/[area]/[sessionID]/
-%
-% SEE ALSO:
-%   analysis.find_firing_field
 %
 % Written by Anna Christina Garvert, 2023.
 
