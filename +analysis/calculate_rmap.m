@@ -1,5 +1,43 @@
 function [oderAA_reponse,oderAB_reponse,oderBA_reponse,oderBB_reponse ]=calculate_rmap(sData,signal,roi)
 
+% CALCULATE_RMAP Extract trial-aligned neural responses for different odor transitions.
+%
+% This function takes neural activity and trial metadata and returns 
+% raster maps for each odor transition type (AA, AB, BA, BB), where:
+% - A = one odor
+% - B = another odor
+%
+% Trials are categorized based on consecutive odor pairings (e.g., odor A 
+% followed by odor B), and the corresponding neural signal from a specified 
+% ROI is extracted and binned for each type.
+%
+% INPUTS:
+%   sData   - Struct containing behavioral and imaging trial metadata.
+%             Must include fields:
+%               sData.imData.variables.trialIndices
+%               sData.imData.variables.odors
+%               sData.imData.variables.response
+%               sData.imData.variables.trialLicks
+%
+%   signal  - 2D matrix of neural activity (ROIs x time).
+%
+%   roi     - Index of the ROI to extract the signal from.
+%
+% OUTPUTS:
+%   oderAA_response - Binned response for trials with odor A → A.
+%   oderAB_response - Binned response for trials with odor A → B.
+%   oderBA_response - Binned response for trials with odor B → A.
+%   oderBB_response - Binned response for trials with odor B → B.
+%
+% NOTES:
+% - Signal alignment: Each trial is aligned to stimulus onset and ITI end.
+% - Binning: Time series data is binned into overlapping windows using 
+%   `binTrials()`, mimicking ~320 ms bins with 50% overlap.
+%
+%
+% Written by Anna Christina Garvert, 2023
+
+
 parameters = classification.get_parameters;
 
 k=1;
