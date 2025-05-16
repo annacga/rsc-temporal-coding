@@ -5,7 +5,7 @@ load.load_rmaps();
 analysis.shuffle_rmaps();
 
 % Set save directory
-savedir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/classification_chance';
+savedir = '/Analysis/areas/classification_chance';
 run_analysis = 1;
 
 % Perform analysis or load existing data
