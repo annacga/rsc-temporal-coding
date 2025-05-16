@@ -39,12 +39,6 @@ function ratio = odorPreferenceRatio(rmaps,varargin)
 %                 Negative values indicate preference for the first odor,
 %                 positive for the second. NaN if invalid (e.g., divide-by-zero).
 %
-% ------------------------
-% NOTES
-% ------------------------
-% - The function normalizes each cell’s mean temporal profile independently.
-% - Used to quantify odor tuning asymmetry between early and late trial epochs.
-%
 % Authored by Anna Christina Garvert, 2023
 
 
