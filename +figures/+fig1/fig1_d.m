@@ -1,5 +1,5 @@
 
-savedir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Figures/Paper/fig1';
+savedir = '';
 
 FA      = [];
 CR      = [];
