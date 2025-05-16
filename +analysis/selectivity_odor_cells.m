@@ -1,18 +1,161 @@
-%% calculation of selectivity
+%% SELECTIVITY INDEX CALCULATION FOR ODOR-TIMING TRIALS
+%
+% This script computes a Selectivity Index (SI) for each neuron based on
+% its firing rate during its preferred field across different trial types
+% (Odor A vs. Odor B). It determines whether a neuron exhibits a clear
+% preference for one odor, and assigns it to the corresponding sequence.
+%
+% ------------------------
+% SELECTIVITY INDEX FORMULA
+% ------------------------
+%   SI = (R_i(f) - R_j(f)) / (R_i(f) + R_j(f))
+%
+%   Where:
+%     • R_i(f): mean firing rate during odor i trials at the cell’s field f
+%     • R_j(f): mean firing rate during odor j trials at the same field f
+%
+%   Interpretation:
+%     • SI > 0 → cell prefers odor i
+%     • SI < 0 → cell prefers odor j (discarded)
+%     • SI = 0 → equal activation
+%
+% ------------------------
+% CLASSIFICATION LOGIC
+% ------------------------
+% Cells are initially classified as:
+%   • TimeA   → Odor A trials only
+%   • TimeB   → Odor B trials only
+%   • TimeAB  → Responsive in both conditions
+%
+% For TimeAB cells:
+%   • If the field overlaps across odors, assign to the condition with the higher field rate.
+%   • If distinct fields exist in both, keep in both groups.
+%
+% Only cells with SI > 0 are retained in each group.
+% Cells with NaN or SI < 0 are removed.
+%
+% ------------------------
+% TEMPORAL SIGNAL DETAILS
+% ------------------------
+%   • Original sampling rate: 31 Hz
+%   • rMaps are temporally smoothed: 3 time bins averaged → Effective Fs = 31 / 3 Hz
+%   • Low-pass filter applied: cutoff < 1 Hz
+%
+% ------------------------
+% INPUTS
+% ------------------------
+%   mData        - Struct with response maps (rmaps) and classification labels.
+%   data         - Struct containing session and trial info.
+%
+% ------------------------
+% PARAMETERS
+%   whichSignal  - Field in mData to use (default: 'deconv')
+%   Fs           - Effective sampling rate (Hz)
+%   Fpass        - Low-pass filter cutoff (Hz)
+%
+% ------------------------
+% OUTPUTS (UPDATED IN mData)
+% ------------------------
+%   mData(i,f).TimeA.indices  - Cell indices assigned to Odor A sequence
+%   mData(i,f).TimeB.indices  - Cell indices assigned to Odor B sequence
+%   mData(i,f).TimeA.SI       - Corresponding Selectivity Indices (SI_A)
+%   mData(i,f).TimeB.SI       - Corresponding Selectivity Indices (SI_B)
+%
+% ------------------------
+% DEPENDENCIES
+% ------------------------
+%   • classification.find_classification_indices
+%   • analysis.find_firing_field
+%   • lowpass (Signal Processing Toolbox)
+%
+% ------------------------
+% NOTES
+% ------------------------
+% - This method helps identify neurons that reliably fire at specific times
+%   depending on odor identity.
+% - Multi-field neurons (with distinct fields in both odors) are retained
+%   in both sequences.
+%% SELECTIVITY INDEX CALCULATION FOR ODOR-TIMING TRIALS
+%
+% This script computes a Selectivity Index (SI) for each neuron based on
+% its firing rate during its preferred field across different trial types
+% (Odor A vs. Odor B). It determines whether a neuron exhibits a clear
+% preference for one odor, and assigns it to the corresponding sequence.
+%
+% ------------------------
+% SELECTIVITY INDEX FORMULA
+% ------------------------
+%   SI = (R_i(f) - R_j(f)) / (R_i(f) + R_j(f))
+%
+%   Where:
+%     • R_i(f): mean firing rate during odor i trials at the cell’s field f
+%     • R_j(f): mean firing rate during odor j trials at the same field f
+%
+%   Interpretation:
+%     • SI > 0 → cell prefers odor i
+%     • SI < 0 → cell prefers odor j (discarded)
+%     • SI = 0 → equal activation
+%
+% ------------------------
+% CLASSIFICATION LOGIC
+% ------------------------
+% Cells are initially classified as:
+%   • TimeA   → Odor A trials only
+%   • TimeB   → Odor B trials only
+%   • TimeAB  → Responsive in both conditions
+%
+% For TimeAB cells:
+%   • If the field overlaps across odors, assign to the condition with the higher field rate.
+%   • If distinct fields exist in both, keep in both groups.
+%
+% Only cells with SI > 0 are retained in each group.
+% Cells with NaN or SI < 0 are removed.
+%
+% ------------------------
+% TEMPORAL SIGNAL DETAILS
+% ------------------------
+%   • Original sampling rate: 31 Hz
+%   • rMaps are temporally smoothed: 3 time bins averaged → Effective Fs = 31 / 3 Hz
+%   • Low-pass filter applied: cutoff < 1 Hz
+%
+% ------------------------
+% INPUTS
+% ------------------------
+%   mData        - Struct with response maps (rmaps) and classification labels.
+%   data         - Struct containing session and trial info.
+%
+% ------------------------
+% PARAMETERS
+%   whichSignal  - Field in mData to use (default: 'deconv')
+%   Fs           - Effective sampling rate (Hz)
+%   Fpass        - Low-pass filter cutoff (Hz)
+%
+% ------------------------
+% OUTPUTS (UPDATED IN mData)
+% ------------------------
+%   mData(i,f).TimeA.indices  - Cell indices assigned to Odor A sequence
+%   mData(i,f).TimeB.indices  - Cell indices assigned to Odor B sequence
+%   mData(i,f).TimeA.SI       - Corresponding Selectivity Indices (SI_A)
+%   mData(i,f).TimeB.SI       - Corresponding Selectivity Indices (SI_B)
+%
+% ------------------------
+% DEPENDENCIES
+% ------------------------
+%   • classification.find_classification_indices
+%   • analysis.find_firing_field
+%   • lowpass (Signal Processing Toolbox)
+%
+% ------------------------
+% NOTES
+% ------------------------
+% - This method helps identify neurons that reliably fire at specific times
+%   depending on odor identity.
+% - Multi-field neurons (with distinct fields in both odors) are retained
+%   in both sequences.
+%
+%
+% Authored Anna Christina Garvert, 2023 
 
-% selectivity index
-% SI = (Ri_f - Rj_f)/(Ri_f+Rj_f)
-% Ri_f : cell mean firing rate at its firing field f over all type odor i-trials
-% Rj_f : cells mean firing rate at its firing field f over opposite odor j-trials
-% cells with negative SI were discarded from corresponding sequence
-% if a cell had a field at the same time bins during both trial types, it was
-% assigned to the sequency where its field rate was highest(positive SI)
-% this condition was removed from analysis of multi field cells
-% cells with different fields in A and B are kept in both sequences
-
-% to find peak we use lowpass filtered signal
-% original signal was sampled with 31Hz but in rmaps 3 time points are
-% always averaged
 Fs = 31/3;
 % lowpass filtered (< 1Hz)
 Fpass = 1;
