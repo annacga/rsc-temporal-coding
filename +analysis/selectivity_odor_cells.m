@@ -69,7 +69,6 @@
 %
 % Authored Anna Christina Garvert, 2023 
 
-%% Selectivity Index Calculation for Odor Sequences
 
 % Set effective sampling rate after binning (original 31 Hz / 3)
 Fs = 31 / 3;
