@@ -6,7 +6,7 @@ rise    = cell(1,length(data));
 for i = 1:length(data)
     for f = 1:length(data(i).sessionIDs)
         
-        savedir = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/signal_statistics',data(i).area,data(i).sessionIDs{f});
+        savedir = fullfile('/Analysis/areas/signal_statistics',data(i).area,data(i).sessionIDs{f});
         if ~exist(savedir)
             mkdir(savedir);
         end
@@ -31,7 +31,7 @@ end
 
 for i = 1:length(data)
     for f = 1:length(data(i).sessionIDs)
-        loaddir = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/signal_statistics',data(i).area,data(i).sessionIDs{f});
+        loaddir = fullfile('/Analysis/areas/signal_statistics',data(i).area,data(i).sessionIDs{f});
 
         load(fullfile(loaddir,'tau'))
         load(fullfile(loaddir,'SNR'))
