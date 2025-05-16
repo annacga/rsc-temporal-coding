@@ -156,82 +156,110 @@
 %
 % Authored Anna Christina Garvert, 2023 
 
-Fs = 31/3;
-% lowpass filtered (< 1Hz)
+%% Selectivity Index Calculation for Odor Sequences
+
+% Set effective sampling rate after binning (original 31 Hz / 3)
+Fs = 31 / 3;
+
+% Low-pass filter cutoff frequency (Hz)
 Fpass = 1;
 
+% Type of signal to analyze (e.g., deconvolved calcium trace)
 whichSignal = 'deconv';
 
+% Loop over all animals/sessions
 for i = 1:length(data)
     for f = 1:length(data(i).sessionIDs)
         
+        % Load classification labels for current session
         ClassifiedCells = mData(i,f).classification;
         
+        % Identify time-selective cell indices
         [TimeAB, TimeA, TimeB] = classification.find_classification_indices(ClassifiedCells,1);
         [OdorAB, OdorA, OdorB] = classification.find_classification_indices(ClassifiedCells,2);
-                
-        %% decide to which sequence TimeAB cells belong
+        
+        %% Assign TimeAB cells to either A or B based on field strength
         delete_timeAB_idx = [];
         for m = 1:length(TimeAB)
-            mean_rmapsA = nanmean([mData(i,f).(whichSignal).rmapsAA(:,31/3:63,TimeAB(m)); mData(i,f).(whichSignal).rmapsAB(:,31/3:63,TimeAB(m))]);
-            mean_rmapsB = nanmean([mData(i,f).(whichSignal).rmapsBA(:,31/3:63,TimeAB(m)); mData(i,f).(whichSignal).rmapsBB(:,31/3:63,TimeAB(m))]);
+            % Average activity during odor A and B trials (time range: 10–20s)
+            mean_rmapsA = nanmean([ ...
+                mData(i,f).(whichSignal).rmapsAA(:,31/3:63,TimeAB(m)); ...
+                mData(i,f).(whichSignal).rmapsAB(:,31/3:63,TimeAB(m)) ]);
+            mean_rmapsB = nanmean([ ...
+                mData(i,f).(whichSignal).rmapsBA(:,31/3:63,TimeAB(m)); ...
+                mData(i,f).(whichSignal).rmapsBB(:,31/3:63,TimeAB(m)) ]);
             
-            % find firing field f
-            firing_field_A = analysis.find_firing_field(lowpass(mean_rmapsA,Fpass,Fs));
-            firing_field_B = analysis.find_firing_field(lowpass(mean_rmapsB,Fpass,Fs));
+            % Identify firing fields using lowpass filtered activity
+            firing_field_A = analysis.find_firing_field(lowpass(mean_rmapsA, Fpass, Fs));
+            firing_field_B = analysis.find_firing_field(lowpass(mean_rmapsB, Fpass, Fs));
             
-            % find which sequence this should be added to
-            if ~isempty(intersect(firing_field_A,firing_field_B))
+            % If fields overlap, assign to the condition with the stronger field
+            if ~isempty(intersect(firing_field_A, firing_field_B))
                 if mean_rmapsA(firing_field_A) > mean_rmapsB(firing_field_B)
                     TimeA = [TimeA; TimeAB(m)];
                 else
                     TimeB = [TimeB; TimeAB(m)];
                 end
-                delete_timeAB_idx = m;
+                delete_timeAB_idx = m; % mark for deletion from AB
             end
         end
-        
+
+        % Remove already assigned TimeAB cells
         TimeAB(delete_timeAB_idx)  = [];
-        
-        %% TimeAB cells with different fields in A and B are kept in both
-        %  sequences.
+
+        %% Add remaining TimeAB cells to both sequences (distinct fields)
         TimeA = [TimeA; TimeAB];
         TimeB = [TimeB; TimeAB];
-        
+
+        %% Compute Selectivity Index for TimeA cells
         SI_A = NaN(length(TimeA),1);
         for m = 1:length(TimeA)
-            mean_rmapsA = nanmean([mData(i,f).(whichSignal).rmapsAA(:,31/3:63,TimeA(m)); mData(i,f).(whichSignal).rmapsAB(:,31/3:63,TimeA(m))]);
-            mean_rmapsB = nanmean([mData(i,f).(whichSignal).rmapsBA(:,31/3:63,TimeA(m)); mData(i,f).(whichSignal).rmapsBB(:,31/3:63,TimeA(m))]);
+            mean_rmapsA = nanmean([ ...
+                mData(i,f).(whichSignal).rmapsAA(:,31/3:63,TimeA(m)); ...
+                mData(i,f).(whichSignal).rmapsAB(:,31/3:63,TimeA(m)) ]);
+            mean_rmapsB = nanmean([ ...
+                mData(i,f).(whichSignal).rmapsBA(:,31/3:63,TimeA(m)); ...
+                mData(i,f).(whichSignal).rmapsBB(:,31/3:63,TimeA(m)) ]);
             
             firing_field_A = analysis.find_firing_field(lowpass(mean_rmapsA,Fpass,Fs));
-            
+
+            % Compute SI only if a valid field is found
             if ~isnan(firing_field_A)
-                SI_A(m) =(mean_rmapsA(firing_field_A)-mean_rmapsB(firing_field_A))/(mean_rmapsA(firing_field_A)+mean_rmapsB(firing_field_A));
+                SI_A(m) = (mean_rmapsA(firing_field_A) - mean_rmapsB(firing_field_A)) / ...
+                          (mean_rmapsA(firing_field_A) + mean_rmapsB(firing_field_A));
             end
-            
         end
-        
+
+        %% Compute Selectivity Index for TimeB cells
         SI_B = NaN(length(TimeB),1);
         for m = 1:length(TimeB)
-            mean_rmapsA = nanmean([mData(i,f).(whichSignal).rmapsAA(:,31/3:63,TimeB(m)); mData(i,f).(whichSignal).rmapsAB(:,31/3:63,TimeB(m))]);
-            mean_rmapsB = nanmean([mData(i,f).(whichSignal).rmapsBA(:,31/3:63,TimeB(m)); mData(i,f).(whichSignal).rmapsBB(:,31/3:63,TimeB(m))]);
+            mean_rmapsA = nanmean([ ...
+                mData(i,f).(whichSignal).rmapsAA(:,31/3:63,TimeB(m)); ...
+                mData(i,f).(whichSignal).rmapsAB(:,31/3:63,TimeB(m)) ]);
+            mean_rmapsB = nanmean([ ...
+                mData(i,f).(whichSignal).rmapsBA(:,31/3:63,TimeB(m)); ...
+                mData(i,f).(whichSignal).rmapsBB(:,31/3:63,TimeB(m)) ]);
             
             firing_field_B = analysis.find_firing_field(lowpass(mean_rmapsB,Fpass,Fs));
+
             if ~isnan(firing_field_B)
-                SI_B(m) =(mean_rmapsB(firing_field_B)-mean_rmapsA(firing_field_B))/(mean_rmapsB(firing_field_B)+mean_rmapsA(firing_field_B));
+                SI_B(m) = (mean_rmapsB(firing_field_B) - mean_rmapsA(firing_field_B)) / ...
+                          (mean_rmapsB(firing_field_B) + mean_rmapsA(firing_field_B));
             end
         end
-        
-        TimeA(SI_A<0|isnan(SI_A)) = [];
-        TimeB(SI_B<0|isnan(SI_B)) = [];
-        SI_A(SI_A<0|isnan(SI_A))   = [];
-        SI_B(SI_B<0|isnan(SI_B))   = [];
-        
+
+        %% Remove cells with negative or undefined SI
+        TimeA(SI_A < 0 | isnan(SI_A)) = [];
+        TimeB(SI_B < 0 | isnan(SI_B)) = [];
+        SI_A(SI_A < 0 | isnan(SI_A))  = [];
+        SI_B(SI_B < 0 | isnan(SI_B))  = [];
+
+        %% Store cleaned indices and SI values
         mData(i,f).TimeA.indices = TimeA;
         mData(i,f).TimeB.indices = TimeB;
-        mData(i,f).TimeA.SI  = SI_A;
-        mData(i,f).TimeB.SI  = SI_B;
-        
-        
-       end
+        mData(i,f).TimeA.SI      = SI_A;
+        mData(i,f).TimeB.SI      = SI_B;
+
+    end
 end
+
