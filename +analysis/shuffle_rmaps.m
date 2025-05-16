@@ -1,4 +1,4 @@
-% -------------------------------------------------------------------------
+
 % Randomly circularly shift rate maps within each row and cell 
 %
 % This script performs a within-row circular shift on population rate maps
