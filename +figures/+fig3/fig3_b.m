@@ -1,4 +1,4 @@
-save_dir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Figures/Paper/fig3';
+save_dir = '';
 col(1,:) =  [234,245,234]./255;
 col(3,:) =  [189,205,246]./255;
 col(2,:) =  [90 197 118]./255;
@@ -99,37 +99,6 @@ row = ones(length(column),1);
 for i = 1:length(row)
     add_sig_bar.sigstar([row(i),column(i)],corrected_p(i))
 end
-%% RSC 
-% The average percentage of odor A cells is:  6.2 % +/-  1.6 % (mean +/- SEM over session) 
-% The average percentage of time A cells is:  4.8 % +/-  0.2 % (mean +/- SEM over session) 
-% The average percentage of odor B cells is:  5.7 % +/-  0.18 % (mean +/- SEM over session) 
-% The average percentage of time B cells is:  4.7 % +/-  0.25 % (mean +/- SEM over session) 
-
-% % M2 = 
-% The average percentage of odor A cells is:  4.9 % +/-  1.8 % (mean +/- SM over session) 
-% The average percentage of time A cells is:  2.4 % +/-  0.7 % (mean +/- SEM over session) 
-% The average percentage of odor B cells is:  2.9 % +/-  1.3 % (mean +/- SEM over session) 
-% The average percentage of time B cells is:  1.8 % +/-  0.6 % (mean +/- SEM over session) 
-% 
-% % PPC = 
-% The average percentage of odor A cells is:  2.4 % +/-  0.9 % (mean +/- SEM over session) 
-% The average percentage of time A cells is:  1.9 % +/-  0.4 % (mean +/- SEM over session) 
-% The average percentage of odor B cells is:  1.4 % +/-  0.4 % (mean +/- SEM over session) 
-% The average percentage of time B cells is:  1.1 % +/-  0.2 % (mean +/- SEM over session) 
-% % % % 
-%  
-% % S1 & S2
-% The average percentage of odor A cells is:  3.5 % +/-  0.9 % (mean +/- SEM over session) 
-% The average percentage of time A cells is:  1.5 % +/-  0.7 % (mean +/- SEM over session) 
-% The average percentage of odor B cells is:  2.8 % +/-  1.7 % (mean +/- SEM over session) 
-% The average percentage of time B cells is:  0.9 % +/-  0.5 % (mean +/- SEM over session) 
-
-%  
-% % V1 & V2
-% The average percentage of odor A cells is:  1.4 % +/-  0.1 % (mean +/- SEM over session) 
-% The average percentage of time A cells is:  2.3 % +/-  0.1 % (mean +/- SEM over session) 
-% The average percentage of odor B cells is:  0.6 % +/-  0.1 % (mean +/- SEM over session) 
-% The average percentage of time B cells is:  1.1 % +/-  0.1 % (mean +/- SEM over session) 
 
 saveas(fig,fullfile(save_dir,'fig_3b.fig'),'fig')
 saveas(fig,fullfile(save_dir,'fig_3b.pdf'),'pdf')
