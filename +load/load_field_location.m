@@ -6,8 +6,7 @@ else
     load_data = 1:length(data)-1;
 end
 
-loaddir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/classification';
-loaddir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_1/field_info_modes/';
+loaddir = '/Fig_1/field_info_modes/';
 
 for i = load_data
     for f = 1:length(data(load_data(i)).sessionIDs)
