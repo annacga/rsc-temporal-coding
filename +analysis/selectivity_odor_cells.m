@@ -1,5 +1,4 @@
-%% SELECTIVITY INDEX CALCULATION FOR ODOR-TIMING TRIALS
-%
+
 % This script computes a Selectivity Index (SI) for each neuron based on
 % its firing rate during its preferred field across different trial types
 % (Odor A vs. Odor B). It determines whether a neuron exhibits a clear
@@ -67,14 +66,6 @@
 %   • classification.find_classification_indices
 %   • analysis.find_firing_field
 %   • lowpass (Signal Processing Toolbox)
-%
-% ------------------------
-% NOTES
-% ------------------------
-% - This method helps identify neurons that reliably fire at specific times
-%   depending on odor identity.
-% - Multi-field neurons (with distinct fields in both odors) are retained
-%   in both sequences.
 %
 % Authored Anna Christina Garvert, 2023 
 
