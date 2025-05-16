@@ -1,4 +1,4 @@
-save_dir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Figures/Paper/fig2';
+save_dir = '/fig2';
 
 run_analysis  = 1;
 save_analysis = 1;
