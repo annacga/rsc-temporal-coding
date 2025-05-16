@@ -6,7 +6,7 @@
 %     load_data = 1:length(data)-1;
 % end
 load_data = 1:length(data)-1;
-load_sData_dirct = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/sDATA/areas/';
+load_sData_dirct = '/sDATA/areas/';
 
 mData = struct();
 % Load all sessions
