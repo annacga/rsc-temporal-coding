@@ -1,6 +1,6 @@
 function [oderAA_reponse,oderAB_reponse,oderBA_reponse,oderBB_reponse ]=calculate_rmap(sData,signal,roi)
 
-% CALCULATE_RMAP Extract trial-aligned neural responses for different odor transitions.
+% Extract trial-aligned neural responses for different odor transitions.
 %
 % This function takes neural activity and trial metadata and returns 
 % raster maps for each odor transition type (AA, AB, BA, BB), where:
