@@ -1,6 +1,6 @@
  
 
-directory = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_1/decoding_smaller_res/sequence_cells';
+directory = '';
 
 i = 1;
 
@@ -28,7 +28,7 @@ yticks([0.:4])
 hold on
 plot(0:5/31:6,nanmean(mean_var_chance,1),'k','LineWidth',1.5,'LineStyle','--')
 
-save_dir = '//Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_1/decoding/';
+save_dir = '';
 saveas(fig,fullfile(save_dir,'fig_2d.fig'),'fig')
 saveas(fig,fullfile(save_dir,'fig_2d.pdf'),'pdf')
 saveas(fig,fullfile(save_dir,'fig_2d.png'),'png')
