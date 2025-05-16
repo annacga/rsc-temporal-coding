@@ -6,7 +6,7 @@ else
     load_data = 1:length(data)-1;
 end
 
-loaddir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_2/decoding_sequence_cells';
+loaddir = '/Fig_2/decoding_sequence_cells';
 
 d_data_time              = struct();
 d_data_trial_type        = struct();
