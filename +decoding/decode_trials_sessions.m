@@ -20,7 +20,7 @@ else
     load_data = 1:length(data)-1;
 end
 
-directory = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/decoding/';%unchaged
+directory = '';
 
 if run_analysis==1
     for i = load_data
