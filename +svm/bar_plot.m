@@ -1,6 +1,6 @@
 
 
-save_dir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/svm';
+save_dir = '/Analysis/areas/svm';
 
 
 for i =1:length(data)
