@@ -1,6 +1,6 @@
 
 whichSignal  = 'deconv';
-savedir = "/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/";
+savedir = "";
 
 z_score_level = 3;
 for i = 1:length(data)
