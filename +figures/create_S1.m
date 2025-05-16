@@ -8,8 +8,8 @@ sessions  = {'m118-20191001-01','m3069-20191001-01'};
  performance = [];
  lick_signal = [];
  for i = 1:length(sessions)
-    fileName1 = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/sDATA/clicking/', sessions{i},strcat(sessions{i},'DAQdata_matlab_compatible.tdms'));
-    fileName2 = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/sDATA/clicking/',sessions{i},strcat(sessions{i},'.tdms'));
+    fileName1 = fullfile('/clicking/', sessions{i},strcat(sessions{i},'DAQdata_matlab_compatible.tdms'));
+    fileName2 = fullfile('/clicking/',sessions{i},strcat(sessions{i},'.tdms'));
     file = sessions{i};
     file(find(file == '-')) = [];
     if i == 2; file(end-1:end) = []; file = strcat(file,'o1');end
