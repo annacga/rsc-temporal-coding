@@ -1,4 +1,4 @@
-saveDir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Figures/Paper/sub_2/E_G';
+saveDir = '/sub_2/E_G';
 
 % load.load_area_info()
 % load.load_area_sData()
