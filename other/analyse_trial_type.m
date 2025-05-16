@@ -1,5 +1,5 @@
 
-save_dir_behave = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/behavior';
+save_dir_behave = '';
 
 for i = 1:length(data)-1
     
