@@ -15,7 +15,7 @@ saveas(fig,fullfile(save_dir,'fig_2a.fig'),'fig')
 saveas(fig,fullfile(save_dir,'fig_2a.pdf'),'pdf')
 saveas(fig,fullfile(save_dir,'fig_2a.png'),'png')
 
-uiopen('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Figures/Paper/fig2/taxidis/Fields_distribution.fig')    
+uiopen('/taxidis/Fields_distribution.fig')    
 ax = gca;
 figure();
 plot(ax.Children(1).XData-1,ax.Children(1).YData,'LineWidth',1.5,'Color','r')
