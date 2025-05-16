@@ -8,7 +8,7 @@ end
  
 
 
-loaddir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_1/classification_';
+loaddir = '/Fig_1/classification';
 
 for i = load_data
     for f = 1:length(data(i).sessionIDs)
