@@ -1,5 +1,5 @@
 
-baseSaveDir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/behavior';
+baseSaveDir = '/Analysis/areas/behavior';
 
 % Loop through all data entries
 for i = 1:length(data)
