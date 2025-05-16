@@ -3,7 +3,7 @@
 
 for i = 1:length(data)
     for f = 1:length(data(i).sessionIDs)
-        savedir = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/decoding',data(i).area);
+        savedir = fullfile('/Analysis/areas/decoding',data(i).area);
 
         mean_var = nanmean(d_data_trial_type(i,f).d_data.accuracy);
         std_var  = nanstd(d_data_trial_type(i,f).d_data.accuracy);
@@ -147,7 +147,7 @@ if ~isempty(find(corrected_p<0.05))
      add_sig_bar.sigstar([row(i),col(i)],corrected_p(row(i),col(i)))
     end
 end
-savedir = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/decoding');
+savedir = fullfile('/Analysis/areas/decoding');
 
 saveas(fig,fullfile(savedir,'acc.fig'),'fig')
 saveas(fig,fullfile(savedir,'acc.pdf'),'pdf')
