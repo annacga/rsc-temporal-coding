@@ -19,7 +19,7 @@ else
     load_data = 1:length(data)-1;
 end
 
-directory = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_2/decoding_sequence_cells';
+directory = '';
 if run_analysis==1
     for i = 1:load_data
     
