@@ -1,4 +1,4 @@
-save_dir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Figures/Paper/sub_2/A_D';
+save_dir = '/sub_2/A_D';
 
 % load.load_area_info
 % mData = load.load_rmaps(mData, data,[2:5])
