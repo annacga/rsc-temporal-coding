@@ -1,5 +1,79 @@
 function mData = field_info(mData,data, varargin)
 
+% FIELD_INFO Calculate and save temporal field characteristics of single neurons.
+%
+% This function analyzes spatial-temporal response maps (rMaps) to extract
+% temporal field properties of individual neurons, including:
+%   - Field size (duration of activation)
+%   - Field location (peak response time)
+%   - Activation probability (percentage of trials with activation)
+%   - Peak time variance (variability in response timing)
+%
+% These metrics are computed separately for each trial segment:
+% TimeA, TimeB, OdorA, and OdorB — using the deconvolved response signal (by default).
+%
+% ------------------------
+% FIELD WIDTH ESTIMATION
+% ------------------------
+% - Compute the mean firing rate across preferred trials.
+% - Apply low-pass filtering (<1 Hz) to smooth the signal.
+% - Estimate the baseline using the **mode** of the filtered signal.
+% - Identify two time points around the peak where the signal drops
+%   below: baseline + 0.5 × standard deviation.
+% - Define the firing field width as the interval between these points.
+% - If the threshold is not crossed, fallback to odor onset or delay offset.
+% - Discard any field longer than 4 seconds.
+%
+% ➤ Interpretation: The field size approximates the time window in which the
+%   neuron has the highest probability of firing. It reflects the variability
+%   in activation timing across trials.
+%
+% ------------------------
+% FIELD LOCATION ESTIMATION
+% ------------------------
+% - Identify the time bin where the mean firing rate is maximal across preferred trials.
+% - This is stored as the field’s peak location (field index).
+%
+% ------------------------
+% TECHNICAL NOTES
+% ------------------------
+% - Original sampling rate: 31 Hz
+% - In rMaps, three time points are averaged together
+%   → Effective sampling rate: **31 / 5 Hz**
+%
+% ------------------------
+% DEPENDENCIES
+% ------------------------
+% - Run `analysis.selectivity` beforehand to determine trial preferences.
+%
+% INPUTS:
+%   mData         - Struct array containing session data and rMaps.
+%   data          - Metadata struct with:
+%                     • sessionIDs: cell array of session identifiers
+%                     • area: string specifying the brain region
+%
+%   varargin      - Optional:
+%                     1) load_data: indices of sessions to process
+%                     2) save_analysis: binary flag (0 or 1) to control saving
+%
+% OUTPUTS:
+%   mData         - Updated with the following fields for each condition:
+%                     • field_size
+%                     • field_location
+%                     • activation_probability
+%                     • peak_time_variance
+%
+% SAVING:
+%   If `save_analysis` is true, the extracted metrics will be saved per session
+%   under:
+%     /Fig_1/field_info_modes/[area]/[sessionID]/
+%
+% SEE ALSO:
+%   analysis.find_firing_field
+%
+% Written by Anna Christina Garvert, 2023.
+
+
 save_analysis = 0;
 if nargin == 3
     load_data     = varargin{1};
@@ -10,38 +84,12 @@ else
     load_data = 1:length(data)-1;
 end
 
-%% calculation of firing field width
-% the mean firing rate over prefered trials is calculated and lowpass
-% filtered (< 1Hz), its baseline was approximated by its mode value
-% the time two points around the peak where the filtered mean signal drops
-% below the threshold baseline +1/2 standard deviation are identified
-% the field size is given by the time interval between these two time
-% points
-% If the mean firign rate didnt drop below the value, the odor onset or
-% delay offseet was used accordingly
-% Field sizes >4 s were discarded
-
-% field sizes should be considered as an approximation of the time interval
-% where the cell had the highest activation probability relative to the rest
-% of the trial, and as such its length represents the variability in
-% activation time for the cell.
-
-% apply first the analysis.selectivity script
-
-
-%% field location
-% the mean firing rate over preffered trials is calculated and the time bin where
-% the mean firing rate is maximal is considered the cell's field time point
-
-% original signal was sampled with 31Hz but in rmaps 3 time points are
-% always averaged
 Fs = 31/5;
 % lowpass filtered (< 1Hz)
 Fpass = 1;
-
 delay = 1:44; whichSignal = 'deconv';
 
-savedir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_1/field_info_modes';
+savedir = '/Fig_1/field_info_modes';
 
 for i = load_data
     for f = 1:length(data(load_data(i)).sessionIDs)
@@ -134,7 +182,7 @@ end
 
 
 
-    function [fieldSize,field_idx,peak_time_variance,activation_probability,firing_field] = single_cell_field_characteristics(rmaps1,rmaps2,cellIdx)
+function [fieldSize,field_idx,peak_time_variance,activation_probability,firing_field] = single_cell_field_characteristics(rmaps1,rmaps2,cellIdx)
         
         % original signal was sampled with 31Hz but in rmaps 3 time points are
         % always averaged
