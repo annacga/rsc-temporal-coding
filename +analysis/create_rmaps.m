@@ -1,6 +1,6 @@
 function mData = create_rmaps(mData,data, varargin)
 
-% CREATE_RMAPS Generate and optionally save response maps (rMaps) for each ROI.
+% Generate and optionally save response maps (rMaps) for each ROI.
 %
 % This function processes session data to compute response maps (rMaps) 
 % from neural activity traces for four odor pairings: AA, AB, BA, and BB. 
@@ -33,8 +33,6 @@ function mData = create_rmaps(mData,data, varargin)
 %   - Populate the `mData` struct with the result.
 %   - Optionally save the result to a predefined folder structure by area/session.
 %
-% SEE ALSO:
-%   calculate_rmap
 %
 % Written by Anna Christina Garvert, 2023.
 
