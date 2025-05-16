@@ -5,14 +5,14 @@
 close all
 
 for i = 1:length(data)
-    save_dir_hyper = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/svm/',data(i).area,'/hyper_params');
+    save_dir_hyper = fullfile('/Analysis/areas/svm/',data(i).area,'/hyper_params');
     load(fullfile(save_dir_hyper, strcat('hyperparams_',type,'.mat')));
     BoxConstraint = mdl.HyperparameterOptimizationResults.XAtMinObjective.BoxConstraint;
     KernelScale   = mdl.HyperparameterOptimizationResults.XAtMinObjective.KernelScale;
 
     for f = 1:length(data(i).sessionIDs)
  
-        save_dir = fullfile('/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/svm/',data(i).area, data(i).sessionIDs{f});
+        save_dir = fullfile('/Analysis/areas/svm/',data(i).area, data(i).sessionIDs{f});
         if ~exist(save_dir); mkdir(save_dir); end
 
         % concatenate both rmaps AA and AB
