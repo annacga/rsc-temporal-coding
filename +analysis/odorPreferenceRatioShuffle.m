@@ -50,7 +50,7 @@ function ratio = odorPreferenceRatioShuffle(rmaps,varargin)
 % - This function is typically used in combination with the true preference
 %   (from `odorPreferenceRatio`) to compute p-values or z-scores.
 %
-% Authored by Anna Christina Garvert
+% Authored by Anna Christina Garvert, 2023
 
 
 if ~isempty(varargin)
