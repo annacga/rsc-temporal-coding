@@ -1,6 +1,6 @@
 clear all
-dirc = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/PROCESSED/PID/day1';
-dirct = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/RAWDATA/PID/FINAL/PID_20190227_finalCorrectOdor/';
+dirc = '/PROCESSED/PID/day1';
+dirct = '/RAWDATA/PID/FINAL/PID_20190227_finalCorrectOdor/';
 
 %% PID MEASUREMENTS
 experiment.IDPID = 'PID_20190227_finalCorrectOdorDAQdata_matlab_compatible';
