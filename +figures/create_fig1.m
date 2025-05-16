@@ -1,6 +1,6 @@
 % close all
 % clear all
-save_dir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Figures/Paper/fig1';
+save_dir = '/fig1';
 % 
 % % run all analysis from scratch or load previous analysis
 run_analysis  = 1;
