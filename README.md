@@ -1,6 +1,6 @@
 # rsc-temporal-coding
 
-# 🧠 Long-Range Position Signals to the Retrosplenial Cortex
+# 🧠 Area-Specific Temporal Coding in the Neocortex
 
 This repository accompanies the publication:
 
