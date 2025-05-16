@@ -6,10 +6,9 @@ else
     load_data = 1:length(data)-1;
 end
 
-loaddir =  '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/rmaps_new';
-loaddir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Fig_1/rmaps';
+loaddir = '/Fig_1/rmaps';
 
-for i = 1:5%load_data
+for i = load_data
     for f = 1:length(data(i).sessionIDs)
         load(fullfile(loaddir,data(i).area,data(i).sessionIDs{f},'deconv','rmapsAA.mat'))
         mData(i,f).deconv.rmapsAA = rmapsAA;
