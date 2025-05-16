@@ -1,27 +1,56 @@
 function [maxloc,indices] = find_firing_field(mean_firing_rate)
 
-% find indices where the mean firing rate is above threrhold baseline +1/2
-% standard deviation 
-% field sizes >4 s are discarded
-% mode value: the weighted average fluorescence from all the pixels in the 
-% ROI after removing overlapping components and neuropil contamination and prior to the ΔF/F transformation
+% FIND_FIRING_FIELD Identify the temporal field of activation from a mean firing rate vector.
+%
+% This function identifies the time interval ("firing field") where a neuron
+% shows the strongest and most sustained activation, based on its mean
+% firing rate across preferred trials.
+%
+% ------------------------
+% METHOD OVERVIEW
+% ------------------------
+% - The input firing rate is low-pass filtered (<1 Hz) before this function is called.
+% - A robust baseline is estimated using the **mode** of the mean firing rate
+%   (approximated by the center of the most populated histogram bin).
+% - A dynamic threshold is computed as:
+%       threshold = mode + 0.5 × standard deviation
+% - The function locates the peak of the signal that exceeds this threshold.
+% - From the peak, it searches left and right to find the full activation field,
+%   i.e., all consecutive time bins where the signal remains above threshold.
+% - The field indices are sorted and returned.
+% - If no valid field is found, outputs are returned as NaN.
+% - Fields longer than 4 seconds are discarded outside this function.
+%
+% ➤ Interpretation: The identified indices represent a time window where
+%   the neuron is most likely active across trials, reflecting its
+%   temporal tuning or selectivity.
+%
+% ------------------------
+% INPUTS
+% ------------------------
+%   mean_firing_rate  - Vector (1 × time) of mean firing rates over preferred trials.
+%
+% ------------------------
+% OUTPUTS
+% ------------------------
+%   maxloc   - Index of peak firing activity within the field.
+%   indices  - Vector of indices where activity exceeds the threshold
+%              (surrounding the peak). NaN if no valid field is found.
+%
+% ------------------------
+% TECHNICAL NOTES
+% ------------------------
+% - The mode is estimated via histogram binning (Sturges’ method).
+% - The input signal should be pre-smoothed and deconvolved.
+% - Assumes an effective sampling rate of ~6.2 Hz (from 31 Hz / 5).
+%
+% ------------------------
+% SEE ALSO
+% ------------------------
+%   field_info.m
 
+% Written by Anna Christina Garvert, 2023.
 
-% the mean firing rate over prefered trials is calculated and lowpass
-% filtered (< 1Hz), its baseline was approximated by its mode value
-% the time two points around the peak where the filtered mean signal drops
-% below the threshold baseline +1/2 standard deviation are identified 
-% the field size is given by the time interval between these two time
-% points
-% If the mean firign rate didnt drop below the value, the odor onset or
-% delay offseet was used accordingly
-% Field sizes >4 s were discarded
-
-% field sizes should be considered as an approximation of the time interval 
-% where the cell had the highest activation probability relative to the rest 
-% of the trial, and as such its length represents the variability in 
-% activation time for the cell.
-% we increased the threshold
 indices = NaN;
 maxloc  = NaN;
 
