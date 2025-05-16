@@ -24,10 +24,6 @@ function mData = field_info(mData,data, varargin)
 % - If the threshold is not crossed, fallback to odor onset or delay offset.
 % - Discard any field longer than 4 seconds.
 %
-% ➤ Interpretation: The field size approximates the time window in which the
-%   neuron has the highest probability of firing. It reflects the variability
-%   in activation timing across trials.
-%
 % ------------------------
 % FIELD LOCATION ESTIMATION
 % ------------------------
