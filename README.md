@@ -22,9 +22,9 @@ Cell Reports, Volume 44, Issue 3, September 25, 2025
 
 ### To reproduce Figures 1–3, run the following scripts in the figure/ directory:
 
-- `create_figure_1.m`
-- `create_figure_2.m`
-- `create_figure_3.m`
+- `create_fig1.m`
+- `create_fig2.m`
+- `create_fig3.m`
 
 
 ## 📄 Data Reference
