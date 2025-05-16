@@ -7,7 +7,7 @@ else
 end
 
 
-loaddir = '/Users/annachristinagarvert/UIO Physiology Dropbox Dropbox/Lab Data/Malte Bieler/Analysis/areas/classification';
+loaddir = '/Analysis/areas/classification';
 
 
 for i = load_data 
